@@ -16,7 +16,7 @@ spec:
         - secrets://secrets.sops.yaml
   destination:
     name: in-cluster
-    namespace: authentik
+    namespace: argocd
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
