@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: global
+  source:
+    repoURL: ghcr.io/argoproj/argo-helm
+    chart: argo-cd
+    targetRevision: 7.3.11
+    helm:
+      valuesFiles:
+        - values.yaml
+        - secrets://secrets.sops.yaml
+  destination:
+    name: in-cluster
+    namespace: authentik
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
