@@ -7,7 +7,7 @@ metadata:
 spec:
   project: global
   source:
-    repoURL: https://github.com/presentium/kubernetes
+    repoURL: https://github.com/presentium/kubernetes.git
     targetRevision: HEAD
     path: system/karpenter
   destination:

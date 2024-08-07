@@ -6,13 +6,16 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: global
-  source:
-    repoURL: 'https://helm.releases.hashicorp.com'
-    chart: vault
-    targetRevision: 0.28.1
-    helm:
-      valuesFiles:
-        - values.yaml
+  sources:
+    - repoURL: 'https://helm.releases.hashicorp.com'
+      chart: vault
+      targetRevision: 0.28.1
+      helm:
+        valuesFiles:
+          - $values/_applications/core/vault/values.yaml
+    - repoURL: https://github.com/presentium/kubernetes.git
+      targetRevision: HEAD
+      ref: values
   destination:
     name: in-cluster
     namespace: vault

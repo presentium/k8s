@@ -4,13 +4,16 @@ metadata:
   name: argocd
 spec:
   project: global
-  source:
-    repoURL: ghcr.io/argoproj/argo-helm
-    chart: argo-cd
-    targetRevision: 7.3.11
-    helm:
-      valuesFiles:
-        - values.yaml
+  sources:
+    - repoURL: ghcr.io/argoproj/argo-helm
+      chart: argo-cd
+      targetRevision: 7.3.11
+      helm:
+        valuesFiles:
+          - $values/argocd/values.yaml
+    - repoURL: https://github.com/presentium/kubernetes.git
+      targetRevision: HEAD
+      ref: values
   destination:
     name: in-cluster
     namespace: argocd
