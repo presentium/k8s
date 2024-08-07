@@ -2,7 +2,7 @@ global:
   domain: cd.presentium.ch
   image:
     repository: ghcr.io/presentium/argocd
-    tag: v2.11.7
+    tag: v2.12.0
 
 configs:
   cm:
