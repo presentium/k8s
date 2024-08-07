@@ -255,7 +255,7 @@ extraObjects:
           chart: argo-cd
           targetRevision: 7.3.11
           helm:
-            valuesFiles:
+            valueFiles:
               - $values/argocd/values.yaml
               - $values/argocd/secrets.sops.yaml
         - repoURL: https://github.com/presentium/kubernetes.git

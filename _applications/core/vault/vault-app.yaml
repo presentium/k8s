@@ -11,7 +11,7 @@ spec:
       chart: vault
       targetRevision: 0.28.1
       helm:
-        valuesFiles:
+        valueFiles:
           - $values/_applications/core/vault/values.yaml
     - repoURL: https://github.com/presentium/kubernetes.git
       targetRevision: HEAD

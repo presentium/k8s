@@ -11,7 +11,7 @@ spec:
       chart: authentik
       targetRevision: 2024.6.3
       helm:
-        valuesFiles:
+        valueFiles:
           - $values/_applications/core/authentik/values.yaml
           - $values/_applications/core/authentik/secrets.sops.yaml
     - repoURL: https://github.com/presentium/kubernetes.git
