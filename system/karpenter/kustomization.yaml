@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: karpenter
+
+resources:
+  - aws-node-template.yaml
+  - aws-provisioner.yaml
+
+helmCharts:
+  - name: karpenter
+    releaseName: karpenter
+    repo: oci://public.ecr.aws/karpenter
+    version: 0.37.0
+    includeCRDs: true
+    valuesInline:
+      settings:
+        clusterName: presentium
+        interruptionQueue: 'karpenter-presentium'
+      serviceAccount:
+        annotations:
+          eks.amazonaws.com/role-arn: 'arn:aws:iam::123247571664:role/PRES-KARPENTER-IRSA-PRESENTIUM'

@@ -4,3 +4,5 @@ namespace: core
 
 resources:
   - authentik/authentik-app.yaml
+  - karpenter/karpenter-app.yaml
+  - vault/vault-app.yaml

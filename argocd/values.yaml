@@ -11,6 +11,8 @@ configs:
 
     statusbadge.enabled: true
 
+    kustomize.buildOptions: '--enable-helm'
+
     application.resourceTrackingMethod: annotation+label
     application.instanceLabelKey: argocd.argoproj.io/instance
 
@@ -178,6 +180,9 @@ configs:
       create: true
       name: argocd-repo-server
       automountServiceAccountToken: true
+      annotations:
+        # TODO
+        eks.amazonaws.com/role-arn: null
 
 extraObjects:
   - apiVersion: argoproj.io/v1alpha1
@@ -192,11 +197,13 @@ extraObjects:
         - 'system'
         - 'core'
       destinations:
-        - namespace: 'system-*'
-          server: '*'
-        - namespace: 'core-*'
-          server: '*'
         - namespace: 'argocd'
+          server: '*'
+        - namespace: 'authentik'
+          server: '*'
+        - namespace: 'karpenter'
+          server: '*'
+        - namespace: 'vault'
           server: '*'
       clusterResourceWhitelist:
         - group: '*'
@@ -213,8 +220,8 @@ extraObjects:
       sourceNamespaces:
         - 'apps'
       destinations:
-        - namespace: '*'
-          server: 'staging-*'
+        - namespace: 'staging-*'
+          server: '*'
       clusterResourceWhitelist:
         - group: '*'
           kind: '*'
@@ -239,13 +246,37 @@ extraObjects:
   - apiVersion: argoproj.io/v1alpha1
     kind: Application
     metadata:
+      name: argocd
+      namespace: argocd
+    spec:
+      project: global
+      source:
+        repoURL: ghcr.io/argoproj/argo-helm
+        chart: argo-cd
+        targetRevision: 7.3.11
+        helm:
+          valuesFiles:
+            - values.yaml
+            - secrets://secrets.sops.yaml
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
       name: core
       namespace: argocd
     spec:
       project: global
       source:
         repoURL: https://github.com/presentium/kubernetes
-        targetRevision: production
+        targetRevision: HEAD
         path: _applications/core
       destination:
         name: in-cluster
@@ -253,4 +284,20 @@ extraObjects:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
-
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: system
+      namespace: argocd
+    spec:
+      project: global
+      source:
+        repoURL: https://github.com/presentium/kubernetes
+        targetRevision: HEAD
+        path: _applications/system
+      destination:
+        name: in-cluster
+        namespace: system
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true

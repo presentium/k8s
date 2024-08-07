@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: vault
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: global
   source:
-    repoURL: ghcr.io/argoproj/argo-helm
-    chart: argo-cd
-    targetRevision: 7.3.11
+    repoURL: 'https://helm.releases.hashicorp.com'
+    chart: vault
+    targetRevision: 0.28.1
     helm:
       valuesFiles:
         - values.yaml
-        - secrets://secrets.sops.yaml
   destination:
     name: in-cluster
-    namespace: argocd
+    namespace: vault
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

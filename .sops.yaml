@@ -1,6 +1,6 @@
 creation_rules:
   - path_regex: .*\.sops\.ya?ml$
     unencrypted_regex: "^(kind)$"
-    kms: 'arn:aws:kms:eu-west-1:123247571664:key/5e8f9752-11b3-477b-87c3-4b8010b9b3ee'
+    kms: 'arn:aws:kms:eu-west-1:123247571664:alias/presentium/sops'
     age: >-
       age1889ep8dshl0c50e4a05j2ny7z64h3qdpcprx3v2fqqe5r67ln9nqjfj3ae
