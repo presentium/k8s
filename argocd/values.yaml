@@ -239,6 +239,8 @@ server:
     enabled: true
     ingressClassName: alb
     controller: aws
+    aws:
+      serviceType: ClusterIP
 
 notifications:
   create: true

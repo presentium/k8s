@@ -1,5 +1,7 @@
 clusterName: presentium
 
+defaultTargetType: ip
+
 ingressClass: alb
 ingressClassParams:
   create: true
