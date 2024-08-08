@@ -275,7 +275,7 @@ extraObjects:
       name: core
       namespace: argocd
     spec:
-      project: global
+      project: default
       source:
         repoURL: https://github.com/presentium/kubernetes.git
         targetRevision: HEAD
@@ -292,7 +292,7 @@ extraObjects:
       name: system
       namespace: argocd
     spec:
-      project: global
+      project: default
       source:
         repoURL: https://github.com/presentium/kubernetes.git
         targetRevision: HEAD
