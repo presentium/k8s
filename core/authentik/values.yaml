@@ -18,3 +18,7 @@ redis:
   architecture: standalone
   auth:
     enabled: false
+  master:
+    kind: Deployment
+    persistence:
+      enabled: false
