@@ -6,10 +6,11 @@ ingressClass: alb
 ingressClassParams:
   create: true
   spec:
-    certificateArn:
-      - 'arn:aws:acm:eu-west-1:123247571664:certificate/c8f97f8a-0b2e-4df3-999f-cb803e96afa0'
+    scheme: internet-facing
     group:
       name: 'presentium-alb'
+    certificateArn:
+      - 'arn:aws:acm:eu-west-1:123247571664:certificate/c8f97f8a-0b2e-4df3-999f-cb803e96afa0'
 
 serviceAccount:
   name: aws-load-balancer-controller
