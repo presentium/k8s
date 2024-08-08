@@ -24,8 +24,8 @@ configs:
 
   rbac:
     policy.csv: |
-      g, org:developers, role:admin
-      g, org:teachers, role:readonly
+      g, presentium:developers, role:admin
+      g, presentium:teachers, role:readonly
 
   params:
     server.insecure: 'true'
