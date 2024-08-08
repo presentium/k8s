@@ -14,13 +14,12 @@ spec:
         volumeSize: 20Gi
         volumeType: gp3
   role: PRES-KARPENTER-PRESENTIUM
-  securityGroupSelectorTerms:
-    - tags:
-        Name: eks-cluster-sg-presentium-*
   subnetSelectorTerms:
     - id: "subnet-0381bfb78583d2908"
     - id: "subnet-051408f2921d9c4f4"
     - id: "subnet-0da26b22c86f4b2b8"
+  securityGroupSelectorTerms:
+    - tags: { karpenter.sh/discovery: presentium }
   tags:
     Managed_By: karpenter
     karpenter.sh/discovery: presentium

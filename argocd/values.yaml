@@ -249,7 +249,7 @@ extraObjects:
       name: argocd
       namespace: argocd
     spec:
-      project: global
+      project: default
       sources:
         - repoURL: ghcr.io/argoproj/argo-helm
           chart: argo-cd
