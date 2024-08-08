@@ -278,7 +278,7 @@ extraObjects:
       namespace: argocd
     spec:
       sourceRepos:
-        - https://github.com/presentium/kubernetes
+        - '*'
       sourceNamespaces:
         - 'system'
         - 'core'
