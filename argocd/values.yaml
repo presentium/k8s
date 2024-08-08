@@ -181,8 +181,7 @@ configs:
       name: argocd-repo-server
       automountServiceAccountToken: true
       annotations:
-        # TODO
-        eks.amazonaws.com/role-arn: null
+        eks.amazonaws.com/role-arn: arn:aws:iam::123247571664:role/PRES-SOPS-KMS-PRESENTIUM
 
 extraObjects:
   - apiVersion: argoproj.io/v1alpha1
