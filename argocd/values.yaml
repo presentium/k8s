@@ -7,7 +7,7 @@ global:
 configs:
   cm:
     exec.enabled: true
-    admin.enabled: false
+    admin.enabled: true
 
     statusbadge.enabled: true
 
