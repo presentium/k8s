@@ -5,8 +5,10 @@ authentik:
 server:
   replicas: 1
   ingress:
-    # TODO [lh] [sb]
-    enabled: false
+    enabled: true
+    ingressClassName: alb
+    hosts:
+      - sso.presentium.ch
 
 worker:
   replicas: 1

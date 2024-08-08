@@ -1,0 +1,16 @@
+clusterName: presentium
+
+ingressClass: alb
+ingressClassParams:
+  create: true
+  spec:
+    group:
+      name: 'presentium-alb'
+
+serviceAccount:
+  name: aws-load-balancer-controller
+  annotations:
+    eks.amazonaws.com/role-arn: 'arn:aws:iam::123247571664:role/PRES-ALB-CONTROLLER-PRESENTIUM'
+
+defaultTags:
+  Managed_By: aws-lbc

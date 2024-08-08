@@ -1,27 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    notifications.argoproj.io/subscribe.authentik-deployed.github: ""
-  name: authentik
+  name: alb-controller
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: global
   sources:
-    - repoURL: 'https://charts.goauthentik.io/'
-      chart: authentik
-      targetRevision: 2024.6.3
+    - repoURL: 'https://aws.github.io/eks-charts'
+      chart: aws-load-balancer-controller
+      targetRevision: 1.8.1
       helm:
         valueFiles:
-          - $values/_applications/core/authentik/values.yaml
-          - $values/_applications/core/authentik/secrets.sops.yaml
+          - $values/_applications/system/alb-controller/values.yaml
     - repoURL: https://github.com/presentium/kubernetes.git
       targetRevision: HEAD
       ref: values
   destination:
     name: in-cluster
-    namespace: authentik
+    namespace: kube-system
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
