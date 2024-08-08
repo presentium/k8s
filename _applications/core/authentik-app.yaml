@@ -14,8 +14,8 @@ spec:
       targetRevision: 2024.6.3
       helm:
         valueFiles:
-          - $values/_applications/core/authentik/values.yaml
-          - $values/_applications/core/authentik/secrets.sops.yaml
+          - $values/core/authentik/values.yaml
+          - $values/core/authentik/secrets.sops.yaml
     - repoURL: https://github.com/presentium/kubernetes.git
       targetRevision: HEAD
       ref: values

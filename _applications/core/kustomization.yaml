@@ -3,5 +3,5 @@ kind: Kustomization
 namespace: core
 
 resources:
-  - authentik/authentik-app.yaml
+  - authentik-app.yaml
   #- vault/vault-app.yaml

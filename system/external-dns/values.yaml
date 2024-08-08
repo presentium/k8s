@@ -1,0 +1,15 @@
+external-dns:
+  provider:
+    name: cloudflare
+
+  extraArgs:
+    - '--domain-filter=presentium.ch'
+    - '--zone-id-filter=660bdc1364b1611625fb1a09ffe6e289'
+
+  env:
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: cloudflare-api-credentials
+          key: apiToken
+

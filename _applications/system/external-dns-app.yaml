@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: global
+  source:
+    repoURL: 'https://github.com/presentium/kubernetes.git'
+    targetRevision: HEAD
+    path: system/external-dns
+    helm:
+      valueFiles:
+        - values.yaml
+        - secrets://secrets.sops.yaml
+  destination:
+    name: in-cluster
+    namespace: kube-system

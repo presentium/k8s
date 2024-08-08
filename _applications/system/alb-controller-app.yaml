@@ -12,13 +12,10 @@ spec:
       targetRevision: 1.8.1
       helm:
         valueFiles:
-          - $values/_applications/system/alb-controller/values.yaml
+          - $values/system/alb-controller/values.yaml
     - repoURL: https://github.com/presentium/kubernetes.git
       targetRevision: HEAD
       ref: values
   destination:
     name: in-cluster
     namespace: kube-system
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
