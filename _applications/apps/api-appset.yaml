@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: presentium-api
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - environment: 'prod'
+            project: 'presentium-production'
+          - environment: 'staging'
+            project: 'presentium-staging'
+  template:
+    metadata:
+      name: 'presentium-api-{{ .environment }}'
+      namespace: apps
+    spec:
+      project: '{{ .project }}'
+      source:
+        repoURL: 'https://github.com/presentium/api.git'
+        targetRevision: HEAD
+        path: kubernetes
+        helm:
+          valueFiles:
+            - 'values-{{ .environment }}.yaml'
+      destination:
+        server: in-cluster
+        namespace: '{{ .environment }}-presentium'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true

@@ -246,13 +246,16 @@ notifications:
   create: true
   notifiers:
     # language=yaml
+    service.github: |
+      appID: 966030
+      installationID: 53630273
+      privateKey: $github-privateKey
+    # language=yaml
     service.webhook.github: |
       url: https://api.github.com
       headers:
         - name: Accept
           value: "application/vnd.github+json"
-        #- name: X-GitHub-Api-Version
-        #  value: "2022-11-28"
         - name: Authorization
           value: "Bearer $workflow-dispatch"
   templates:
@@ -262,7 +265,6 @@ notifications:
         github:
           method: POST
           path: /repos/presentium/infrastructure/actions/workflows/terraform-applications-apply.yml/dispatches
-          # language=json
           body: |
             {"ref":"production"}
   triggers:
@@ -335,7 +337,7 @@ extraObjects:
       sources:
         - repoURL: ghcr.io/argoproj/argo-helm
           chart: argo-cd
-          targetRevision: 7.4.1
+          targetRevision: 7.4.2
           helm:
             valueFiles:
               - $values/argocd/values.yaml
