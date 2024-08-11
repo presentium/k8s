@@ -258,6 +258,12 @@ notifications:
           value: "application/vnd.github+json"
         - name: Authorization
           value: "Bearer $workflow-dispatch"
+    # language=yaml
+    service.webhook.discord: |
+      url: $discord-webhook-url
+      headers:
+        - name: Content-Type
+          value: application/json
   templates:
     # language=yaml
     template.authentik-deployed: |
@@ -267,12 +273,129 @@ notifications:
           path: /repos/presentium/infrastructure/actions/workflows/terraform-applications-apply.yml/dispatches
           body: |
             {"ref":"production"}
+    # language=yaml
+    template.app-health-degraded: |
+      webhook:
+        discord:
+          method: POST
+          body: |
+            {
+              "embeds": [
+                {
+                  "title": "Application {{.app.metadata.name}} has degraded",
+                  "url": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+                  "color": 16039984,
+                  "fields": [
+                    {
+                      "name": "Application",
+                      "value": "{{.app.metadata.name}}",
+                      "inline": "true"
+                    },
+                    {
+                      "name": "Health Status",
+                      "value": "{{.app.status.health.status}}",
+                      "inline": "true"
+                    }
+                    {{if .app.status.sync.revision}}
+                    ,
+                    {
+                      "name": "Repository",
+                      "value": "{{.app.spec.source.repoURL}} @ `{{.app.status.sync.revision | abbrev 12 }}`",
+                      "inline": "false"
+                    }
+                    {{ else }}
+                      {{ $sources := .app.spec.sources }}
+                      {{ range $index, $revision := .app.status.sync.revisions }}
+                      ,
+                      {
+                        "name": "Repository {{ add1 $index }}",
+                        "value": "{{ (index $sources $index).repoURL }} @ `{{ $revision | abbrev 12 }}`",
+                        "inline": "false"
+                      }
+                      {{ end }}
+                    {{end}}
+                    {{range $index, $c := .app.status.conditions}}
+                    ,
+                    {
+                      "name": "{{$c.type}}",
+                      "value": "{{$c.message}}",
+                      "inline": "true"
+                    }
+                    {{end}}
+                  ]
+                }
+              ]
+            }
+    # language=yaml
+    template.app-deployed: |
+      message: |
+        Application {{.app.metadata.name}} is now running new version of deployments manifests.
+      webhook:
+        discord:
+          method: POST
+          body: |
+            {
+              "embeds": [
+                {
+                  "title": "Application **{{.app.metadata.name}}** has synced successfully",
+                  "url": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+                  "color": 1621652,
+                  "fields": [
+                    {{if .app.status.sync.revision}}
+                    {
+                      "name": "Repository",
+                      "value": "{{.app.spec.source.repoURL}} @ `{{.app.status.sync.revision | abbrev 12 }}`",
+                      "inline": "false"
+                    }
+                    {{ else }}
+                      {{ $sources := .app.spec.sources }}
+                      {{ range $index, $revision := .app.status.sync.revisions }}
+                      {{if $index}},{{end}}
+                      {
+                        "name": "Repository {{ add1 $index }}",
+                        "value": "{{ (index $sources $index).repoURL }} @ `{{ $revision | abbrev 12 }}`",
+                        "inline": "false"
+                      }
+                      {{ end }}
+                    {{end}}
+                  ]
+                }
+              ]
+            }
+      github:
+        repoURLPath: "{{.app.spec.source.repoURL}}"
+        revisionPath: "{{.app.status.operationState.syncResult.revision}}"
+        status:
+          state: success
+          label: "continuous-delivery/{{.app.metadata.name}}"
+          targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+        deployment:
+          state: success
+          environment: '{{get .app.metadata.labels "ch.presentium/environment" }}'
+          environmentURL: 'https://{{ first (default (list "presentium.ch") .app.status.summary.externalURLs) | trimPrefix "http://" }}'
+          logURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+          autoMerge: false
+  subscriptions:
+    - triggers:
+        - on-health-degraded
+        - on-deployed
+      recipients:
+        - discord
   triggers:
     # language=yaml
     trigger.authentik-deployed: |
       - description: Application syncing has succeeded
         when: app.status.operationState.phase in ['Succeeded']
         send: [ authentik-deployed ]
+    # language=yaml
+    trigger.on-health-degraded: |
+      - when: app.status.health.status == 'Degraded'
+        send: [ app-health-degraded ]
+    # language=yaml
+    trigger.on-deployed: |
+      - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+        oncePer: app.status.operationState?.syncResult?.revision
+        send: [ app-deployed ]
 
 extraObjects:
   - apiVersion: argoproj.io/v1alpha1
@@ -401,15 +524,21 @@ extraObjects:
         - list:
             elements:
               - environment: 'prod'
+                githubEnvironment: 'production'
                 project: 'presentium-production'
                 revision: '>=0.0.0'
               - environment: 'staging'
+                githubEnvironment: 'staging'
                 project: 'presentium-staging'
                 revision: 'HEAD'
       template:
         metadata:
           name: 'presentium-api-{{ "{{ .environment }}" }}'
           namespace: apps
+          annotations:
+            notifications.argoproj.io/subscribe.on-deployed.github: ""
+          labels:
+            ch.presentium/environment: '{{ "{{ .githubEnvironment }}" }}'
         spec:
           project: '{{ "{{ .project }}" }}'
           source:
