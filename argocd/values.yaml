@@ -526,7 +526,7 @@ extraObjects:
               - environment: 'prod'
                 githubEnvironment: 'production'
                 project: 'presentium-production'
-                revision: '>=0.0.0'
+                revision: 'HEAD'
               - environment: 'staging'
                 githubEnvironment: 'staging'
                 project: 'presentium-staging'
