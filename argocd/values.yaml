@@ -394,7 +394,7 @@ notifications:
     # language=yaml
     trigger.on-deployed: |
       - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
-        oncePer: app.status.operationState?.syncResult?.revision
+        oncePer: (app.metadata.labels["ch.presentium/environment"] ?? "") + app.status.operationState?.syncResult?.revision
         send: [ app-deployed ]
 
 extraObjects:
