@@ -402,8 +402,10 @@ extraObjects:
             elements:
               - environment: 'prod'
                 project: 'presentium-production'
+                revision: '>=0.0.0'
               - environment: 'staging'
                 project: 'presentium-staging'
+                revision: 'HEAD'
       template:
         metadata:
           name: 'presentium-api-{{ "{{ .environment }}" }}'
@@ -412,7 +414,7 @@ extraObjects:
           project: '{{ "{{ .project }}" }}'
           source:
             repoURL: 'https://github.com/presentium/api.git'
-            targetRevision: HEAD
+            targetRevision: '{{ "{{ .revision }}" }}'
             path: kubernetes
             helm:
               valueFiles:
