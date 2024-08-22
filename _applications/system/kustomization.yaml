@@ -4,5 +4,6 @@ namespace: system
 
 resources:
   - alb-controller-app.yaml
+  - ebs-controller-app.yaml
   - external-dns-app.yaml
   - karpenter-app.yaml

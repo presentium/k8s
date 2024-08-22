@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ebs-controller
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: global
+  sources:
+    - repoURL: 'https://kubernetes-sigs.github.io/aws-ebs-csi-driver'
+      chart: aws-ebs-csi-driver
+      targetRevision: 1.33.0
+      helm:
+        valueFiles:
+          - $values/system/ebs-controller/values.yaml
+    - repoURL: https://github.com/presentium/kubernetes.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    name: in-cluster
+    namespace: kube-system
