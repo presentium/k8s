@@ -1,0 +1,6 @@
+StorageClasses:
+  - name: ebs-sc
+    parameters:
+      encrypted: "true"
+    volumeBindingMode: WaitForFirstConsumer
+    reclaimPolicy: delete

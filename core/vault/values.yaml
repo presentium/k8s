@@ -7,7 +7,11 @@ server:
         paths: []
   dataStorage:
     enabled: true
+    storageClass: ebs-sc
   auditStorage:
+    enabled: true
+    storageClass: ebs-sc
+  ui:
     enabled: true
   affinity: ""
   ha:
