@@ -4,4 +4,4 @@ namespace: core
 
 resources:
   - authentik-app.yaml
-  #- vault/vault-app.yaml
+  - vault-app.yaml
