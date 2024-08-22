@@ -1,4 +1,14 @@
 server:
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    hosts:
+      - host: vault.presentium.ch
+        paths: []
+  dataStorage:
+    enabled: true
+  auditStorage:
+    enabled: true
   affinity: ""
   ha:
     enabled: true
