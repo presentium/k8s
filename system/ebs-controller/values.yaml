@@ -1,6 +1,6 @@
-StorageClasses:
-  - name: ebs-sc
-    parameters:
-      encrypted: "true"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: delete
+controller:
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: 'arn:aws:iam::123247571664:role/PRES-EBS-CSI-PRESENTIUM'
+
+storageClasses: []

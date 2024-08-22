@@ -7,19 +7,20 @@ server:
         paths: []
   dataStorage:
     enabled: true
-    storageClass: ebs-sc
+    storageClass: ebs
   auditStorage:
     enabled: true
-    storageClass: ebs-sc
+    storageClass: ebs
   ui:
     enabled: true
   affinity: ""
   ha:
     enabled: true
     replicas: 3
-    raft: 
+    raft:
       enabled: true
       setNodeId: true
+      # language=hcl
       config: |
         cluster_name = "vault-presentium"
         storage "raft" {
