@@ -10,7 +10,7 @@ spec:
   project: global
   sources:
     - repoURL: 'https://helm.releases.hashicorp.com'
-      chart: vault-helm
+      chart: hashicorp/vault
       targetRevision: 0.28.1
       helm:
         valueFiles:
