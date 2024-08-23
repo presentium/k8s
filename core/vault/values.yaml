@@ -16,7 +16,7 @@ server:
   affinity: ""
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws::iam::123247571664:role/PRES-VAULT-KMS-PRESENTIUM
+      eks.amazonaws.com/role-arn: arn:aws:iam::123247571664:role/PRES-VAULT-KMS-PRESENTIUM
     name: vault
   ha:
     enabled: true
