@@ -1,6 +1,11 @@
 controller:
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: 'arn:aws:iam::123247571664:role/PRES-EBS-CSI-PRESENTIUM'
+      eks.amazonaws.com/role-arn: "arn:aws:iam::123247571664:role/PRES-EBS-CSI-PRESENTIUM"
 
-storageClasses: []
+storageClasses:
+  - name: ebs
+    volumeBindingMode: WaitForFirstConsumer
+    reclaimPolicy: Delete
+    annotations:
+      storageclass.kubernetes.io/is-default-class: "true"
