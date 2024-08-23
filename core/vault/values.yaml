@@ -14,6 +14,10 @@ server:
   ui:
     enabled: true
   affinity: ""
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws::iam::123247571664:role/PRES-VAULT-KMS-PRESENTIUM
+    name: vault
   ha:
     enabled: true
     replicas: 3
@@ -33,3 +37,8 @@ server:
           tls_disable = "true"
         }
         service_registration "kubernetes" {}
+
+        seal "awskms" {
+          kms_key_id = "arn:aws:kms:eu-west-1:123247571664:alias/presentium/vault"
+        }
+
