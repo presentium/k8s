@@ -26,6 +26,7 @@ server:
       setNodeId: true
       # language=hcl
       config: |
+        ui = true
         cluster_name = "vault-presentium"
         storage "raft" {
           path    = "/vault/data/"
@@ -41,4 +42,3 @@ server:
         seal "awskms" {
           kms_key_id = "arn:aws:kms:eu-west-1:123247571664:alias/presentium/vault"
         }
-
