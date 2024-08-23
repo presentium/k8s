@@ -2,6 +2,8 @@ server:
   ingress:
     enabled: true
     ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/healthcheck-path: /v1/sys/health
     hosts:
       - host: vault.presentium.ch
         paths: []
