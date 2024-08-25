@@ -274,6 +274,14 @@ notifications:
           body: |
             {"ref":"production"}
     # language=yaml
+    template.vault-deployed: |
+      webhook:
+        github:
+          method: POST
+          path: /repos/presentium/infrastructure/actions/workflows/terraform-applications-apply.yml/dispatches
+          body: |
+            {"ref":"production"}
+    # language=yaml
     template.app-health-degraded: |
       webhook:
         discord:
@@ -387,6 +395,11 @@ notifications:
       - description: Application syncing has succeeded
         when: app.status.operationState.phase in ['Succeeded']
         send: [ authentik-deployed ]
+    # language=yaml
+    trigger.vault-deployed: |
+      - description: Application syncing has succeeded
+        when: app.status.operationState.phase in ['Succeeded']
+        send: [ vault-deployed ]
     # language=yaml
     trigger.on-health-degraded: |
       - when: app.status.health.status == 'Degraded'
