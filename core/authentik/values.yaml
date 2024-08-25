@@ -1,6 +1,12 @@
 authentik:
   error_reporting:
     enabled: false
+  email:
+    host: 'email-smtp.eu-west-1.amazonaws.com'
+    port: 587
+    from: 'Presentium Authentik <no-reply+authentik@presentium.ch>'
+    use_ssl: false
+    use_tls: true
 
 server:
   replicas: 1
