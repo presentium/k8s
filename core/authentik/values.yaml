@@ -13,6 +13,9 @@ server:
   ingress:
     enabled: true
     ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/healthcheck-path: /-/health/ready/
+      alb.ingress.kubernetes.io/success-codes: 200,204
     hosts:
       - sso.presentium.ch
 
