@@ -29,7 +29,7 @@ configs:
 
   params:
     server.insecure: 'true'
-    application.namespaces: 'system, core, apps'
+    application.namespaces: 'system, core, apps, monitoring'
 
   gpg:
     keys:
@@ -558,7 +558,7 @@ extraObjects:
         path: _applications/monitoring
       destination:
         name: in-cluster
-        namespace: system
+        namespace: monitoring
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
