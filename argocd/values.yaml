@@ -474,7 +474,7 @@ extraObjects:
         - https://github.com/presentium/kubernetes
         - https://grafana.github.io/helm-charts
       sourceNamespaces:
-        - 'apps'
+        - 'monitoring'
       destinations:
         - namespace: 'monitoring'
           server: '*'
