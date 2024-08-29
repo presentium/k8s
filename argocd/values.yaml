@@ -472,6 +472,7 @@ extraObjects:
     spec:
       sourceRepos:
         - https://github.com/presentium/kubernetes
+        - https://grafana.github.io/helm-charts
       sourceNamespaces:
         - 'apps'
       destinations:
