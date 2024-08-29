@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.vault-deployed.github: ""
+  name: vault
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: monitoring
+  sources:
+    - repoURL: 'https://grafana.github.io/helm-charts'
+      chart: lgtm-distributed
+      targetRevision: '2.1.0'
+      helm:
+        valueFiles:
+          - $values/monitoring/lgtm/values.yaml
+    - repoURL: https://github.com/presentium/kubernetes.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

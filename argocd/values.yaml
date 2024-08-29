@@ -445,6 +445,7 @@ extraObjects:
       clusterResourceWhitelist:
         - group: '*'
           kind: '*'
+
   - apiVersion: argoproj.io/v1alpha1
     kind: AppProject
     metadata:
@@ -458,6 +459,23 @@ extraObjects:
         - 'apps'
       destinations:
         - namespace: 'prod-*'
+          server: '*'
+      clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: AppProject
+    metadata:
+      name: monitoring
+      namespace: argocd
+    spec:
+      sourceRepos:
+        - https://github.com/presentium/kubernetes
+      sourceNamespaces:
+        - 'apps'
+      destinations:
+        - namespace: 'monitoring'
           server: '*'
       clusterResourceWhitelist:
         - group: '*'
@@ -490,6 +508,7 @@ extraObjects:
         automated:
           prune: true
           selfHeal: true
+
   - apiVersion: argoproj.io/v1alpha1
     kind: Application
     metadata:
@@ -507,6 +526,7 @@ extraObjects:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
+
   - apiVersion: argoproj.io/v1alpha1
     kind: Application
     metadata:
@@ -518,6 +538,24 @@ extraObjects:
         repoURL: https://github.com/presentium/kubernetes.git
         targetRevision: HEAD
         path: _applications/system
+      destination:
+        name: in-cluster
+        namespace: system
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+
+  - apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: system
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/presentium/kubernetes.git
+        targetRevision: HEAD
+        path: _applications/monitoring
       destination:
         name: in-cluster
         namespace: system
