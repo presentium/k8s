@@ -2,6 +2,12 @@
 grafana:
   # -- Deploy Grafana if enabled. See [upstream readme](https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration) for full values reference.
   enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    hosts:
+      - grafana.presentium.ch
+
 
   # -- Grafana data sources config. Connects to all three by default
   datasources:
@@ -89,8 +95,6 @@ mimir:
 tempo:
   # -- Deploy Tempo if enabled.  See [upstream readme](https://github.com/grafana/helm-charts/blob/main/charts/tempo-distributed/README.md#values) for full values reference.
   enabled: false
-  ingester:
-    replicas: 1
 
 grafana-oncall:
   # -- Deploy Grafana OnCall if enabled. See [upstream values.yaml](https://github.com/grafana/oncall/blob/dev/helm/oncall/values.yaml) for full values reference.
