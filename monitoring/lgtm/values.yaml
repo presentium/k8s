@@ -13,7 +13,7 @@ grafana:
       root_url: 'https://grafana.presentium.ch'
     auth.github:
       enabled: true
-      allow_sign_up: false
+      allow_sign_up: true
       allowed_organizations: ['presentium']
       role_attribute_path: contains(groups[*], '@presentium/developers') && 'GrafanaAdmin' || 'Viewer'
 
