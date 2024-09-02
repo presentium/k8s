@@ -1,6 +1,6 @@
 ---
-assertNoLeakedSecrets: false # as we use SOPS
 grafana:
+  assertNoLeakedSecrets: false # as we use SOPS
   # -- Deploy Grafana if enabled. See [upstream readme](https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration) for full values reference.
   enabled: true
   ingress:
