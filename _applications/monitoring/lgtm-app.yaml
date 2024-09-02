@@ -13,6 +13,7 @@ spec:
       helm:
         valueFiles:
           - $values/monitoring/lgtm/values.yaml
+          - $values/monitoring/lgtm/secrets.sops.yaml
     - repoURL: https://github.com/presentium/kubernetes.git
       targetRevision: HEAD
       ref: values
