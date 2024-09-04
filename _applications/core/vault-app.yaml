@@ -8,16 +8,14 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: global
-  sources:
-    - repoURL: 'https://helm.releases.hashicorp.com'
-      chart: vault
-      targetRevision: 0.28.1
-      helm:
-        valueFiles:
-          - $values/core/vault/values.yaml
-    - repoURL: https://github.com/presentium/kubernetes.git
-      targetRevision: HEAD
-      ref: values
+  source:
+    repoURL: 'https://github.com/presentium/kubernetes.git'
+    targetRevision: HEAD
+    path: core/vault
+    helm:
+      valueFiles:
+        - values.yaml
+        - secrets://secrets.sops.yaml
   destination:
     name: in-cluster
     namespace: vault
