@@ -9,6 +9,7 @@ vault:
       annotations:
         alb.ingress.kubernetes.io/healthcheck-path: /v1/sys/health
         alb.ingress.kubernetes.io/backend-protocol: HTTPS
+        alb.ingress.kubernetes.io/mutual-authentication: '[{"port": 443, "mode": "passthrough"}]'
       hosts:
         - host: vault.presentium.ch
           paths: [ ]
@@ -73,6 +74,11 @@ vault:
             tls_disable   = "false"
             tls_cert_file = "/vault/userconfig/tls-server/tls.crt"
             tls_key_file  = "/vault/userconfig/tls-server/tls.key"
+
+            tls_client_ca_file = "/vault/userconfig/tls-registration/ca.crt"
+
+            x_forwarded_for_client_cert_header          = "X-Amzn-Mtls-Clientcert"
+            x_forwarded_for_client_cert_header_decoders = "URL"
           }
 
           service_registration "kubernetes" {}
