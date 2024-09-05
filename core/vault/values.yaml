@@ -12,7 +12,7 @@ vault:
         alb.ingress.kubernetes.io/mutual-authentication: '[{"port": 443, "mode": "passthrough"}]'
       hosts:
         - host: vault.presentium.ch
-          paths: [ ]
+          paths: []
     dataStorage:
       enabled: true
       storageClass: ebs
@@ -44,6 +44,8 @@ vault:
           ui           = true
           api_addr     = "https://vault.presentium.ch"
           cluster_name = "vault-presentium"
+
+          log_level = "trace"
 
           storage "raft" {
             path = "/vault/data/"

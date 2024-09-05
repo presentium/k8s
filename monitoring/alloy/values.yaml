@@ -3,6 +3,7 @@ cluster:
 
 externalServices:
   prometheus:
+    writeEndpoint: '/api/v1/push'
     host: http://lgtm-mimir-nginx.monitoring
   loki:
     host: http://lgtm-loki-gateway.monitoring
