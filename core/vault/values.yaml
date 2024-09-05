@@ -45,8 +45,6 @@ vault:
           api_addr     = "https://vault.presentium.ch"
           cluster_name = "vault-presentium"
 
-          log_level = "trace"
-
           storage "raft" {
             path = "/vault/data/"
             retry_join {
