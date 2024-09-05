@@ -72,16 +72,18 @@ grafana:
 loki:
   # -- Deploy Loki if enabled. See [upstream readme](https://github.com/grafana/helm-charts/tree/main/charts/loki-distributed#values) for full values reference.
   enabled: true
-  storage_config:
-    aws:
-      s3: http://grafana-mimir:supersecret@lgtm-minio:9000
-      s3forcepathstyle: true
-      bucketnames: loki-data
-    boltdb_shipper:
-      active_index_directory: /loki/boltdb-shipper-active
-      cache_location: /loki/boltdb-shipper-cache
-      cache_ttl: 24h
-      shared_store: s3
+  loki:
+    structuredConfig:
+      storage_config:
+        aws:
+          s3: http://grafana-mimir:supersecret@lgtm-minio:9000
+          s3forcepathstyle: true
+          bucketnames: loki-data
+        boltdb_shipper:
+          active_index_directory: /loki/boltdb-shipper-active
+          cache_location: /loki/boltdb-shipper-cache
+          cache_ttl: 24h
+          shared_store: s3
 # -- Mimir chart values. Resources are set to a minimum by default.
 mimir:
   # -- Deploy Mimir if enabled. See [upstream values.yaml](https://github.com/grafana/mimir/blob/main/operations/helm/charts/mimir-distributed/values.yaml) for full values reference.
