@@ -16,3 +16,5 @@ alloy-logs:
 metrics:
   cost:
     enabled: false
+opencost:
+  enabled: false
