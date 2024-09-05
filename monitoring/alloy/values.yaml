@@ -13,3 +13,6 @@ alloy-logs:
     nodeSelector:
       kubernetes.io/os: linux
       karpenter.sh/registered: 'true'
+metrics:
+  cost:
+    enabled: false
