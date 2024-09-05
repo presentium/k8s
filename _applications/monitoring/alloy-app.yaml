@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lgtm
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: monitoring
+  sources:
+    - repoURL: 'https://grafana.github.io/helm-charts'
+      chart: k8s-monitoring
+      targetRevision: '1.5.0'
+      helm:
+        valueFiles:
+          - $values/monitoring/alloy/values.yaml
+    - repoURL: https://github.com/presentium/kubernetes.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    name: in-cluster
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

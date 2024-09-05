@@ -1,0 +1,8 @@
+cluster:
+  name: presentium
+
+externalServices:
+  prometheus:
+    host: http://lgtm-mimir-nginx.monitoring
+  loki:
+    host: http://lgtm-loki-gateway.monitoring
