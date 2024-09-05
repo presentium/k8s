@@ -150,7 +150,7 @@ mimir:
       - name: enterprise-metrics-ruler
         policy: none
         purge: false
-      - name: loki
+      - name: loki-data
         policy: none
         purge: false
     resources:
