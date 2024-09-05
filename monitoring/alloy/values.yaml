@@ -7,3 +7,9 @@ externalServices:
     host: http://lgtm-mimir-nginx.monitoring
   loki:
     host: http://lgtm-loki-gateway.monitoring
+alloy-logs:
+  controller:
+    type: daemonset
+    nodeSelector:
+      kubernetes.io/os: linux
+      karpenter.sh/registered: 'true'
