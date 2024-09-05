@@ -16,8 +16,20 @@ grafana:
       allow_sign_up: true
       allowed_organizations: ['presentium']
       role_attribute_path: contains(groups[*], '@presentium/developers') && 'GrafanaAdmin' || 'Viewer'
+  dashboardProviders: {}
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: 'k8s'
+          orgId: 1
+          folder: 'k8s'
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/k8s
   dashboards:
-    grafana-dashboards-kubernetes:
+    k8s:
       k8s-system-api-server:
         url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
         token: ''
